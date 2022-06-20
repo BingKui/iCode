@@ -1,0 +1,169 @@
+{
+  "name": "iCode",
+  "version": "1.0.0",
+  "description": "代码片段搜索工具。",
+  "main": "./dist/electron/main.js",
+  "scripts": {
+    "dev": "node ./electron/dev.js",
+    "build": "node ./electron/build.js",
+    "pack": "node ./electron/build.js && cross-env electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BingKui/iCode"
+  },
+  "keywords": [
+    "Vue",
+    "Electron",
+    "Vuex",
+    "Vue-Router",
+    "Template"
+  ],
+  "author": "康兵奎",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BingKui/iCode"
+  },
+  "homepage": "https://github.com/BingKui/iCode",
+  "build": {
+    "productName": "iCode",
+    "appId": "cn.uiseed.icode",
+    "copyright": "康兵奎",
+    "directories": {
+      "output": "dist"
+    },
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://oss.uiseed.cn/app/"
+      }
+    ],
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "target": {
+        "target": "default",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      },
+      "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+      "icon": "icons/icon.icns",
+      "darkModeSupport": true
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "msi"
+      ],
+      "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+      "icon": "icons/icon.ico"
+    },
+    "linux": {
+      "icon": "icons"
+    }
+  },
+  "dependencies": {
+    "@icon-park/vue": "^1.3.5",
+    "axios": "^0.26.1",
+    "codemirror": "^5.65.3",
+    "dayjs": "^1.11.2",
+    "fs-extra": "^10.0.1",
+    "highlight.js": "^11.5.1",
+    "jszip": "^3.9.0",
+    "lodash": "^4.17.21",
+    "nedb": "^1.8.0",
+    "normalize-wheel": "^1.0.1",
+    "octokit": "^1.7.1",
+    "shelljs": "^0.8.5",
+    "uuid": "^8.3.2",
+    "v-contextmenu": "^2.8.1",
+    "view-design": "^4.7.0",
+    "vue": "^2.6.14",
+    "vue-code-highlight": "^0.7.8",
+    "vue-highlightjs": "^1.3.3",
+    "vue-router": "^3.5.2",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "autoprefixer": "^9.5.1",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-import": "^1.13.0",
+    "cfonts": "^2.4.3",
+    "chalk": "^2.4.2",
+    "clean-webpack-plugin": "^2.0.2",
+    "copy-webpack-plugin": "^5.0.3",
+    "cross-env": "^5.2.0",
+    "cross-spawn": "^7.0.0",
+    "css-loader": "^2.1.1",
+    "del": "^4.1.1",
+    "electron": "^17.4.3",
+    "electron-builder": "^23.0.3",
+    "electron-store": "^8.0.1",
+    "electron-updater": "^5.0.1",
+    "eslint": "^5.16.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-vue": "^5.2.2",
+    "file-loader": "^3.0.1",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "happypack": "^5.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.6.0",
+    "multispinner": "^0.2.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "progress-bar-webpack-plugin": "^1.12.1",
+    "sass-resources-loader": "^2.0.0",
+    "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^3.0.3",
+    "url-loader": "^2.1.0",
+    "vue-loader": "^15.7.1",
+    "vue-runtime-helpers": "^1.1.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.39.3",
+    "webpack-build-notifier": "^1.0.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-notifier": "^1.14.1"
+  }
+}
