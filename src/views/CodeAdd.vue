@@ -80,7 +80,7 @@ export default {
         }),
     },
     async created() {
-        const { isPublic, editId } = this.$route.query;
+        const { isPublic, editId, code } = this.$route.query;
         this.isPublic = isPublic == 1;
         if (editId) {
             this.isEdit = true;
@@ -93,6 +93,7 @@ export default {
                 type: info.type,
             };
         }
+        if (code) this.formItem.content = code;
     },
     methods: {
         ...mapActions([

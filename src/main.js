@@ -1,17 +1,18 @@
 // 主入口文件
 import { app, Tray, screen } from 'electron';
-import { isDev, isMac, mainURL, createMainWindow, createTrayMenu, trayIcon, appIcon, createSearchWindow, searchURL } from '@/utils';
+import { isDev, isMac, mainURL, createMainWindow, createTrayMenu, trayIcon, appIcon, createSearchWindow, searchURL, addURL } from '@/utils';
 import { AddAppSetting, AddAppUpdate, AddDataBase, AddMenuList, AddSearchUpdate, AddShortcuts } from '@/support';
 import { getCursorPoint, getPointDisplay } from './feature/common';
 import { SEARCH_WINDOW } from '@constants/common';
 import DB_NAME from '@constants/db';
+import path from 'path';
 
 let mainWindow, searchWindow, tray;
 
 // 初始化窗口
-const initAppWindow = () => {
+const initAppWindow = (url) => {
     mainWindow = createMainWindow();
-    mainWindow.loadURL(mainURL);
+    mainWindow.loadURL(url || mainURL);
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -26,6 +27,63 @@ const initSearchWindow = () => {
     searchWindow.loadURL(searchURL);
     AddSearchUpdate(searchWindow);
 };
+
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) app.quit();
+
+const PROTOCOL = 'iCode';
+const args = [];
+if (!app.isPackaged) {
+    // 如果是开发阶段，需要把我们的脚本的绝对路径加入参数中
+    args.push(path.resolve(process.argv[1]));
+}
+if (isDev) {
+    // 如果是开发阶段，需要把我们的脚本的绝对路径加入参数中
+    args.push(path.resolve(process.argv[1]));
+}
+// 加一个 `--` 以确保后面的参数不被 Electron 处理
+args.push('--');
+app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, args);
+
+function handleArgv(argv) {
+    const prefix = `${PROTOCOL}:`;
+    // 开发阶段，跳过前两个参数（`electron.exe .`）
+    // 打包后，跳过第一个参数（`myapp.exe`）
+    const offset = app.isPackaged ? 1 : 2;
+    const url = argv.find((arg, i) => i >= offset && arg.startsWith(prefix));
+    if (url) handleUrl(url);
+}
+
+// 如果打开协议时，没有其他实例，则当前实例当做主实例，处理参数
+handleArgv(process.argv);
+
+// 其他实例启动时，主实例会通过 second-instance 事件接收其他实例的启动参数 `argv`
+app.on('second-instance', (event, argv) => {
+    console.log(argv);
+    // Windows 下通过协议URL启动时，URL会作为参数，所以需要在这个事件里处理
+    if (process.platform === 'win32') {
+        handleArgv(argv);
+    }
+});
+
+// macOS 下通过协议URL启动时，主实例会通过 open-url 事件接收这个 URL
+app.on('open-url', (event, urlStr) => {
+    console.log(urlStr);
+    handleUrl(urlStr);
+});
+
+function handleUrl(urlStr) {
+    // myapp://?name=1&pwd=2
+    const urlObj = new URL(urlStr);
+    const { searchParams } = urlObj;
+    // console.log(urlObj.search); // -> ?name=1&pwd=2
+    // console.log(searchParams.get('name')); // -> 1
+    // console.log(searchParams.get('pwd')); // -> 2
+    // 根据需要做其他事情
+    const url = `${addURL}?isPublic=1&code=${searchParams.get('code')}`;
+    mainWindow ? mainWindow.loadURL() : initAppWindow(url);
+}
+
 app.whenReady().then(() => {
     // 初始化窗口
     initAppWindow();

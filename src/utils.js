@@ -19,6 +19,7 @@ export const appIcon = path.resolve(__dirname, './assets/app.png');
 export const trayIcon = path.resolve(__dirname, isMac ? './assets/trayTemplate.png' : './assets/tray.png');
 // 主界面地址
 export const mainURL = isDev ? `http://${host}:${port}` : `file://${__dirname}/index.html`;
+export const addURL = isDev ? `http://${host}:${port}/#/public-add` : `file://${__dirname}/index.html#/public-add`;
 export const searchURL = isDev ? `http://${host}:${port}/#/search` : `file://${__dirname}/index.html#/search`;
 
 /**

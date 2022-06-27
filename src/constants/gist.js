@@ -1,5 +1,5 @@
 // 公共资源地址访问 token
-export const PUBLIC_TOKEN = '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'; // iCodePublicToken
+export const PUBLIC_TOKEN = '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'; // iCodePublicToken
 // 公共资源地址库 id
 export const PUBLIC_GIST_ID = '35732409b5745b967c7556066ed1f975';
 // 资源文件名称

@@ -26,7 +26,11 @@ export default {
     },
     methods: {
         handleBack() {
-            this.$router.back();
+            try {
+                this.$router.back();
+            } catch (err) {
+                this.$router.replace('/');
+            }
         },
     },
 };
